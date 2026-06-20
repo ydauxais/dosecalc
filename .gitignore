@@ -39,6 +39,7 @@ captures/
 # Keystore files (ne jamais versionner)
 *.jks
 *.keystore
+keystore.properties
 
 # Kotlin
 .kotlin/
