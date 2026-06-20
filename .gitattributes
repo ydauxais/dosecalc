@@ -1,0 +1,14 @@
+# Normalisation des fins de ligne pour un dépôt multi-plateforme (F-Droid build sous Linux).
+* text=auto eol=lf
+
+# Scripts Windows : CRLF
+*.bat text eol=crlf
+
+# Le wrapper Unix doit rester en LF pour être exécutable sous Linux/macOS
+gradlew text eol=lf
+
+# Fichiers binaires
+*.png binary
+*.jar binary
+*.keystore binary
+*.jks binary

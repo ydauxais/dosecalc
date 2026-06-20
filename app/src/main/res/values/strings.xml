@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DoseCalc</string>
+
+    <string name="title">Calcul du volume posologique</string>
+    <string name="weight_label">Poids</string>
+    <string name="dose_label">Posologie</string>
+    <string name="concentration_label">Concentration</string>
+    <string name="result_label">Volume à administrer</string>
+
+    <string name="per_kg">par kg</string>
+    <string name="per_ml">par ml</string>
+
+    <string name="unit_kg">kg</string>
+    <string name="unit_g">g</string>
+    <string name="unit_mg">mg</string>
+    <string name="unit_ug">µg</string>
+
+    <string name="result_unit">ml</string>
+    <string name="result_placeholder">—</string>
+
+    <string name="error_empty">Renseignez des valeurs numériques valides.</string>
+    <string name="error_negative">Les valeurs négatives ne sont pas autorisées.</string>
+    <string name="error_concentration">La concentration doit être strictement positive.</string>
+
+    <string name="disclaimer_label">Avertissement (optionnel)</string>
+    <string name="disclaimer_placeholder"></string>
+</resources>

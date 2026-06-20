@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      Thème de fenêtre minimal basé sur la plateforme (aucune dépendance
+      com.google.android.material requise). L'UI Material 3 est rendue par Compose.
+    -->
+    <style name="Theme.DoseCalc" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>
