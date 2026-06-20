@@ -20,7 +20,4 @@
     <string name="error_empty">Renseignez des valeurs numériques valides.</string>
     <string name="error_negative">Les valeurs négatives ne sont pas autorisées.</string>
     <string name="error_concentration">La concentration doit être strictement positive.</string>
-
-    <string name="disclaimer_label">Avertissement (optionnel)</string>
-    <string name="disclaimer_placeholder"></string>
 </resources>

@@ -93,13 +93,6 @@ fun DoseCalcScreen(viewModel: DoseCalcViewModel = viewModel()) {
             )
 
             ResultCard(result = viewModel.result)
-
-            OutlinedTextField(
-                value = viewModel.disclaimer,
-                onValueChange = { viewModel.disclaimer = it },
-                label = { Text(stringResource(R.string.disclaimer_label)) },
-                modifier = Modifier.fillMaxWidth(),
-            )
         }
     }
 }

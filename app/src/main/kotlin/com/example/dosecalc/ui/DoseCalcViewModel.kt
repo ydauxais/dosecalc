@@ -27,9 +27,6 @@ class DoseCalcViewModel : ViewModel() {
     /** Volume de référence de la concentration (ex. « 5 » pour 250 µg / 5 ml). 1 ml par défaut. */
     var concentrationVolumeText by mutableStateOf("1")
 
-    /** Avertissement optionnel et configurable (vide par défaut). */
-    var disclaimer by mutableStateOf("")
-
     /**
      * Résultat courant, ou `null` tant qu'aucune saisie n'a été faite (on n'affiche
      * alors ni volume ni erreur). Recalculé à la volée à partir de l'état de saisie.

@@ -66,7 +66,3 @@ Sous Windows PowerShell : `.\gradlew.bat …` (penser à `$env:JAVA_HOME` = JDK 
 `feat:`, `fix:`, `test:`, `chore:`, `docs:`, `refactor:`…
 La logique métier est développée en **TDD strict** : tests rouges d'abord, implémentation jusqu'au
 vert, puis commit.
-
-## Disclaimer
-L'écran propose un champ « Avertissement (optionnel) » configurable (placeholder vide), à renseigner
-si l'app sert un usage de dosage réel.
