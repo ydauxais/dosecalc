@@ -58,7 +58,6 @@ fun DoseCalcScreen(viewModel: DoseCalcViewModel = viewModel()) {
                 label = stringResource(R.string.weight_label),
                 value = viewModel.weightText,
                 onValueChange = { viewModel.weightText = it },
-                unitSuffix = null,
                 selectedUnitLabel = weightUnitLabel(viewModel.weightUnit),
                 unitOptions = WeightUnit.entries.map { it to weightUnitLabel(it) },
                 onUnitSelected = { viewModel.weightUnit = it },
@@ -69,7 +68,6 @@ fun DoseCalcScreen(viewModel: DoseCalcViewModel = viewModel()) {
                 label = stringResource(R.string.dose_label),
                 value = viewModel.doseText,
                 onValueChange = { viewModel.doseText = it },
-                unitSuffix = stringResource(R.string.per_kg),
                 selectedUnitLabel = massUnitLabel(viewModel.doseUnit),
                 unitOptions = doseUnits.map { it to massUnitLabel(it) },
                 onUnitSelected = { viewModel.doseUnit = it },
@@ -80,7 +78,6 @@ fun DoseCalcScreen(viewModel: DoseCalcViewModel = viewModel()) {
                 label = stringResource(R.string.concentration_label),
                 value = viewModel.concentrationText,
                 onValueChange = { viewModel.concentrationText = it },
-                unitSuffix = stringResource(R.string.per_ml),
                 selectedUnitLabel = massUnitLabel(viewModel.concentrationUnit),
                 unitOptions = doseUnits.map { it to massUnitLabel(it) },
                 onUnitSelected = { viewModel.concentrationUnit = it },
@@ -107,7 +104,6 @@ private fun <T> MeasureRow(
     label: String,
     value: String,
     onValueChange: (String) -> Unit,
-    unitSuffix: String?,
     selectedUnitLabel: String,
     unitOptions: List<Pair<T, String>>,
     onUnitSelected: (T) -> Unit,
@@ -130,10 +126,10 @@ private fun <T> MeasureRow(
         ExposedDropdownMenuBox(
             expanded = expanded,
             onExpandedChange = { expanded = it },
-            modifier = Modifier.width(120.dp),
+            modifier = Modifier.width(110.dp),
         ) {
             OutlinedTextField(
-                value = if (unitSuffix != null) "$selectedUnitLabel $unitSuffix" else selectedUnitLabel,
+                value = selectedUnitLabel,
                 onValueChange = {},
                 readOnly = true,
                 singleLine = true,
@@ -145,7 +141,7 @@ private fun <T> MeasureRow(
             ExposedDropdownMenu(expanded = expanded, onDismissRequest = { expanded = false }) {
                 unitOptions.forEach { (unit, unitLabel) ->
                     DropdownMenuItem(
-                        text = { Text(if (unitSuffix != null) "$unitLabel $unitSuffix" else unitLabel) },
+                        text = { Text(unitLabel) },
                         onClick = {
                             onUnitSelected(unit)
                             expanded = false

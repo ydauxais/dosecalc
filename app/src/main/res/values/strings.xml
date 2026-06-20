@@ -4,12 +4,9 @@
 
     <string name="title">Calcul du volume posologique</string>
     <string name="weight_label">Poids</string>
-    <string name="dose_label">Posologie</string>
-    <string name="concentration_label">Concentration</string>
+    <string name="dose_label">Posologie (par kg)</string>
+    <string name="concentration_label">Concentration (par ml)</string>
     <string name="result_label">Volume à administrer</string>
-
-    <string name="per_kg">par kg</string>
-    <string name="per_ml">par ml</string>
 
     <string name="unit_kg">kg</string>
     <string name="unit_g">g</string>
