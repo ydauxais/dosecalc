@@ -1,13 +1,13 @@
-package com.example.dosecalc.ui
+package fr.dauxais.dosecalc.ui
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.example.dosecalc.logic.DoseResult
-import com.example.dosecalc.logic.MassUnit
-import com.example.dosecalc.logic.WeightUnit
-import com.example.dosecalc.logic.computeVolumeMlFromInput
+import fr.dauxais.dosecalc.logic.DoseResult
+import fr.dauxais.dosecalc.logic.MassUnit
+import fr.dauxais.dosecalc.logic.WeightUnit
+import fr.dauxais.dosecalc.logic.computeVolumeMlFromInput
 
 /**
  * ViewModel léger : ne détient QUE l'état de saisie et délègue tout le calcul à la

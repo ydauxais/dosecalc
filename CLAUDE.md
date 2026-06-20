@@ -23,14 +23,14 @@ le volume à administrer.
 ## Architecture & invariant
 > **Invariant : toute la logique de calcul reste pure et testable hors UI.**
 
-- Cœur métier : [`app/src/main/kotlin/com/example/dosecalc/logic/DoseMath.kt`](app/src/main/kotlin/com/example/dosecalc/logic/DoseMath.kt)
+- Cœur métier : [`app/src/main/kotlin/fr/dauxais/dosecalc/logic/DoseMath.kt`](app/src/main/kotlin/fr/dauxais/dosecalc/logic/DoseMath.kt)
   — Kotlin **pur**, zéro import Android/Compose, donc testable en JVM **sans émulateur**.
   - `computeVolumeMl(...)` : cœur numérique (entrées `Double` + unités typées).
   - `computeVolumeMlFromInput(...)` : parse les chaînes (vide / non numérique / virgule FR) puis délègue.
   - Résultat = `DoseResult.Success(volumeMl)` ou `DoseResult.Invalid(reason)` — pas d'exception, pas de NaN.
-- UI Compose (`com.example.dosecalc.ui`) : `MainActivity`, `DoseCalcScreen`, `DoseCalcViewModel`.
+- UI Compose (`fr.dauxais.dosecalc.ui`) : `MainActivity`, `DoseCalcScreen`, `DoseCalcViewModel`.
   Le ViewModel ne contient **aucune** logique de calcul ; il appelle seulement `computeVolumeMlFromInput`.
-- Tests : [`app/src/test/kotlin/com/example/dosecalc/logic/DoseMathTest.kt`](app/src/test/kotlin/com/example/dosecalc/logic/DoseMathTest.kt) (JUnit4).
+- Tests : [`app/src/test/kotlin/fr/dauxais/dosecalc/logic/DoseMathTest.kt`](app/src/test/kotlin/fr/dauxais/dosecalc/logic/DoseMathTest.kt) (JUnit4).
 
 ### Formule
 `volume_ml = (poids_kg × posologie_µg_par_kg) / concentration_µg_par_ml`,

@@ -1,4 +1,4 @@
-package com.example.dosecalc.ui.theme
+package fr.dauxais.dosecalc.ui.theme
 
 import androidx.compose.material3.Typography
 

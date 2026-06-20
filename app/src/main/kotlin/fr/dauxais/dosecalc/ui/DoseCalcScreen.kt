@@ -1,4 +1,4 @@
-package com.example.dosecalc.ui
+package fr.dauxais.dosecalc.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,11 +32,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.dosecalc.R
-import com.example.dosecalc.logic.DoseResult
-import com.example.dosecalc.logic.InvalidReason
-import com.example.dosecalc.logic.MassUnit
-import com.example.dosecalc.logic.WeightUnit
+import fr.dauxais.dosecalc.R
+import fr.dauxais.dosecalc.logic.DoseResult
+import fr.dauxais.dosecalc.logic.InvalidReason
+import fr.dauxais.dosecalc.logic.MassUnit
+import fr.dauxais.dosecalc.logic.WeightUnit
 import java.util.Locale
 
 @OptIn(ExperimentalMaterial3Api::class)

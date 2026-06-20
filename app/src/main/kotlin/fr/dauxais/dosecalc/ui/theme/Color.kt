@@ -1,4 +1,4 @@
-package com.example.dosecalc.ui.theme
+package fr.dauxais.dosecalc.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

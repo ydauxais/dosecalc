@@ -6,32 +6,53 @@ plugins {
     alias(libs.plugins.kotlin.compose)
 }
 
-// Signature release optionnelle : lue depuis keystore.properties (non versionné).
-// Absent (F-Droid, CI) -> build release non signé, signé en aval. Présent -> APK signé localement.
+// Signature release résolue dans cet ordre :
+//  1. variables d'environnement (CI GitHub Actions) ;
+//  2. keystore.properties local (non versionné) ;
+//  3. aucune -> build release non signé (F-Droid signe en aval).
 val keystorePropsFile = rootProject.file("keystore.properties")
 val keystoreProps = Properties().apply {
     if (keystorePropsFile.exists()) keystorePropsFile.inputStream().use { load(it) }
 }
 
+data class ReleaseSigning(val storeFile: String, val storePassword: String, val keyAlias: String, val keyPassword: String)
+
+val releaseSigning: ReleaseSigning? = when {
+    System.getenv("SIGNING_KEYSTORE_FILE") != null -> ReleaseSigning(
+        storeFile = System.getenv("SIGNING_KEYSTORE_FILE"),
+        storePassword = System.getenv("SIGNING_STORE_PASSWORD").orEmpty(),
+        keyAlias = System.getenv("SIGNING_KEY_ALIAS").orEmpty(),
+        keyPassword = System.getenv("SIGNING_KEY_PASSWORD").orEmpty(),
+    )
+    keystorePropsFile.exists() -> ReleaseSigning(
+        storeFile = keystoreProps.getProperty("storeFile"),
+        storePassword = keystoreProps.getProperty("storePassword"),
+        keyAlias = keystoreProps.getProperty("keyAlias"),
+        keyPassword = keystoreProps.getProperty("keyPassword"),
+    )
+    else -> null
+}
+
 android {
-    namespace = "com.example.dosecalc"
+    namespace = "fr.dauxais.dosecalc"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.example.dosecalc"
+        applicationId = "fr.dauxais.dosecalc"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        // Surchargés par la CI (tag git) ; valeurs par défaut pour les builds locaux.
+        versionCode = (System.getenv("VERSION_CODE") ?: "1").toInt()
+        versionName = (System.getenv("VERSION_NAME") ?: "1.0").removePrefix("v")
     }
 
     signingConfigs {
-        if (keystorePropsFile.exists()) {
+        releaseSigning?.let { s ->
             create("release") {
-                storeFile = rootProject.file(keystoreProps.getProperty("storeFile"))
-                storePassword = keystoreProps.getProperty("storePassword")
-                keyAlias = keystoreProps.getProperty("keyAlias")
-                keyPassword = keystoreProps.getProperty("keyPassword")
+                storeFile = rootProject.file(s.storeFile)
+                storePassword = s.storePassword
+                keyAlias = s.keyAlias
+                keyPassword = s.keyPassword
             }
         }
     }
@@ -44,7 +65,7 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
-            if (keystorePropsFile.exists()) {
+            if (releaseSigning != null) {
                 signingConfig = signingConfigs.getByName("release")
             }
         }

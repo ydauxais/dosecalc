@@ -1,4 +1,4 @@
-package com.example.dosecalc.logic
+package fr.dauxais.dosecalc.logic
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertTrue

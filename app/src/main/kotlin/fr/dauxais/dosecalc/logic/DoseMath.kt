@@ -1,4 +1,4 @@
-package com.example.dosecalc.logic
+package fr.dauxais.dosecalc.logic
 
 /**
  * Cœur métier du calcul posologique — **Kotlin pur**, sans aucune dépendance Android/Compose,

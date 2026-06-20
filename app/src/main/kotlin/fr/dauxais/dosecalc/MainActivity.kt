@@ -1,11 +1,11 @@
-package com.example.dosecalc
+package fr.dauxais.dosecalc
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.dosecalc.ui.DoseCalcScreen
-import com.example.dosecalc.ui.theme.DoseCalcTheme
+import fr.dauxais.dosecalc.ui.DoseCalcScreen
+import fr.dauxais.dosecalc.ui.theme.DoseCalcTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

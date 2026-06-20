@@ -1,4 +1,4 @@
-package com.example.dosecalc.ui.theme
+package fr.dauxais.dosecalc.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
