@@ -73,7 +73,7 @@ fun DoseCalcScreen(viewModel: DoseCalcViewModel = viewModel()) {
                 onUnitSelected = { viewModel.doseUnit = it },
             )
 
-            // Concentration : masse (mg / µg) par ml
+            // Concentration : masse (mg / µg) pour un volume de référence (ex. 250 µg / 5 ml)
             MeasureRow(
                 label = stringResource(R.string.concentration_label),
                 value = viewModel.concentrationText,
@@ -81,6 +81,15 @@ fun DoseCalcScreen(viewModel: DoseCalcViewModel = viewModel()) {
                 selectedUnitLabel = massUnitLabel(viewModel.concentrationUnit),
                 unitOptions = doseUnits.map { it to massUnitLabel(it) },
                 onUnitSelected = { viewModel.concentrationUnit = it },
+            )
+            OutlinedTextField(
+                value = viewModel.concentrationVolumeText,
+                onValueChange = { viewModel.concentrationVolumeText = it },
+                label = { Text(stringResource(R.string.concentration_volume_label)) },
+                singleLine = true,
+                suffix = { Text(stringResource(R.string.result_unit)) },
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                modifier = Modifier.fillMaxWidth(),
             )
 
             ResultCard(result = viewModel.result)

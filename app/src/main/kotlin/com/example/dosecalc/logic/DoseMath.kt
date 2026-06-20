@@ -33,25 +33,33 @@ sealed interface DoseResult {
 /**
  * Cœur numérique pur.
  *
+ * La concentration peut être exprimée par rapport à un volume de référence quelconque
+ * (ex. « 250 µg / 5 ml ») via [concentrationVolumeMl] ; sa valeur par défaut `1.0` correspond
+ * à une concentration « par ml ».
+ *
  * @return [DoseResult.Success] avec le volume en ml, ou [DoseResult.Invalid] si :
- *  - la concentration est ≤ 0 ([InvalidReason.NON_POSITIVE_CONCENTRATION], évite la division par zéro) ;
+ *  - la concentration ou le volume de référence est ≤ 0
+ *    ([InvalidReason.NON_POSITIVE_CONCENTRATION], évite la division par zéro) ;
  *  - le poids ou la posologie est négatif ([InvalidReason.NEGATIVE_VALUE]).
  */
 fun computeVolumeMl(
     bodyWeight: Double, weightUnit: WeightUnit,
     dosePerKg: Double, doseUnit: MassUnit,
     concentration: Double, concentrationUnit: MassUnit,
+    concentrationVolumeMl: Double = 1.0,
 ): DoseResult {
     if (bodyWeight < 0.0 || dosePerKg < 0.0) {
         return DoseResult.Invalid(InvalidReason.NEGATIVE_VALUE)
     }
-    if (concentration <= 0.0) {
+    if (concentration <= 0.0 || concentrationVolumeMl <= 0.0) {
         return DoseResult.Invalid(InvalidReason.NON_POSITIVE_CONCENTRATION)
     }
 
     val weightKg = bodyWeight * weightUnit.kilogramsPerUnit
     val doseMicrogramsPerKg = dosePerKg * doseUnit.microgramsPerUnit
-    val concentrationMicrogramsPerMl = concentration * concentrationUnit.microgramsPerUnit
+    // Concentration ramenée au µg/ml à partir du volume de référence.
+    val concentrationMicrogramsPerMl =
+        concentration * concentrationUnit.microgramsPerUnit / concentrationVolumeMl
 
     val totalDoseMicrograms = weightKg * doseMicrogramsPerKg
     val volumeMl = totalDoseMicrograms / concentrationMicrogramsPerMl
@@ -68,6 +76,7 @@ fun computeVolumeMlFromInput(
     bodyWeightText: String, weightUnit: WeightUnit,
     dosePerKgText: String, doseUnit: MassUnit,
     concentrationText: String, concentrationUnit: MassUnit,
+    concentrationVolumeText: String = "1",
 ): DoseResult {
     val bodyWeight = parseNumber(bodyWeightText)
         ?: return DoseResult.Invalid(InvalidReason.EMPTY_OR_NON_NUMERIC)
@@ -75,11 +84,14 @@ fun computeVolumeMlFromInput(
         ?: return DoseResult.Invalid(InvalidReason.EMPTY_OR_NON_NUMERIC)
     val concentration = parseNumber(concentrationText)
         ?: return DoseResult.Invalid(InvalidReason.EMPTY_OR_NON_NUMERIC)
+    val concentrationVolume = parseNumber(concentrationVolumeText)
+        ?: return DoseResult.Invalid(InvalidReason.EMPTY_OR_NON_NUMERIC)
 
     return computeVolumeMl(
         bodyWeight, weightUnit,
         dosePerKg, doseUnit,
         concentration, concentrationUnit,
+        concentrationVolume,
     )
 }
 

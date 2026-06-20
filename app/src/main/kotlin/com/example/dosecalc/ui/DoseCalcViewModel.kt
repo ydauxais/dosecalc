@@ -24,6 +24,9 @@ class DoseCalcViewModel : ViewModel() {
     var concentrationText by mutableStateOf("")
     var concentrationUnit by mutableStateOf(MassUnit.MILLIGRAM)
 
+    /** Volume de référence de la concentration (ex. « 5 » pour 250 µg / 5 ml). 1 ml par défaut. */
+    var concentrationVolumeText by mutableStateOf("1")
+
     /** Avertissement optionnel et configurable (vide par défaut). */
     var disclaimer by mutableStateOf("")
 
@@ -39,6 +42,7 @@ class DoseCalcViewModel : ViewModel() {
                 bodyWeightText = weightText, weightUnit = weightUnit,
                 dosePerKgText = doseText, doseUnit = doseUnit,
                 concentrationText = concentrationText, concentrationUnit = concentrationUnit,
+                concentrationVolumeText = concentrationVolumeText,
             )
         }
 }

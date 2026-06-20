@@ -123,6 +123,82 @@ class DoseMathTest {
         assertEquals(0.0, volumeOf(r), 1e-9)
     }
 
+    // --- Concentration exprimée par un volume de référence ≠ 1 ml (ex. 250 µg / 5 ml) ---
+
+    @Test
+    fun `concentration 250ug pour 5ml`() {
+        // 2 kg × 100 µg/kg = 200 µg ; conc = 250 µg / 5 ml = 50 µg/ml ; volume = 4 ml
+        val r = computeVolumeMl(
+            bodyWeight = 2.0, weightUnit = WeightUnit.KILOGRAM,
+            dosePerKg = 100.0, doseUnit = MassUnit.MICROGRAM,
+            concentration = 250.0, concentrationUnit = MassUnit.MICROGRAM,
+            concentrationVolumeMl = 5.0,
+        )
+        assertEquals(4.0, volumeOf(r), 1e-9)
+    }
+
+    @Test
+    fun `250ug pour 5ml equivaut a 50ug pour 1ml`() {
+        val parVolume = computeVolumeMl(
+            2.0, WeightUnit.KILOGRAM, 100.0, MassUnit.MICROGRAM,
+            250.0, MassUnit.MICROGRAM, concentrationVolumeMl = 5.0,
+        )
+        val par1ml = computeVolumeMl(
+            2.0, WeightUnit.KILOGRAM, 100.0, MassUnit.MICROGRAM,
+            50.0, MassUnit.MICROGRAM, concentrationVolumeMl = 1.0,
+        )
+        assertEquals(volumeOf(par1ml), volumeOf(parVolume), 1e-9)
+    }
+
+    @Test
+    fun `volume de reference par defaut vaut 1ml`() {
+        // L'omission du volume de référence doit se comporter comme « par ml ».
+        val sansVolume = computeVolumeMl(
+            10.0, WeightUnit.KILOGRAM, 5.0, MassUnit.MILLIGRAM, 50.0, MassUnit.MILLIGRAM,
+        )
+        val avecVolume1 = computeVolumeMl(
+            10.0, WeightUnit.KILOGRAM, 5.0, MassUnit.MILLIGRAM,
+            50.0, MassUnit.MILLIGRAM, concentrationVolumeMl = 1.0,
+        )
+        assertEquals(volumeOf(avecVolume1), volumeOf(sansVolume), 1e-9)
+    }
+
+    @Test
+    fun `volume de reference nul est invalide`() {
+        val r = computeVolumeMl(
+            10.0, WeightUnit.KILOGRAM, 5.0, MassUnit.MILLIGRAM,
+            50.0, MassUnit.MILLIGRAM, concentrationVolumeMl = 0.0,
+        )
+        assertEquals(DoseResult.Invalid(InvalidReason.NON_POSITIVE_CONCENTRATION), r)
+    }
+
+    @Test
+    fun `volume de reference negatif est invalide`() {
+        val r = computeVolumeMl(
+            10.0, WeightUnit.KILOGRAM, 5.0, MassUnit.MILLIGRAM,
+            50.0, MassUnit.MILLIGRAM, concentrationVolumeMl = -5.0,
+        )
+        assertEquals(DoseResult.Invalid(InvalidReason.NON_POSITIVE_CONCENTRATION), r)
+    }
+
+    @Test
+    fun `volume de reference depuis une chaine`() {
+        val r = computeVolumeMlFromInput(
+            "2", WeightUnit.KILOGRAM, "100", MassUnit.MICROGRAM,
+            "250", MassUnit.MICROGRAM, concentrationVolumeText = "5",
+        )
+        assertEquals(4.0, volumeOf(r), 1e-9)
+    }
+
+    @Test
+    fun `volume de reference vide est invalide`() {
+        val r = computeVolumeMlFromInput(
+            "2", WeightUnit.KILOGRAM, "100", MassUnit.MICROGRAM,
+            "250", MassUnit.MICROGRAM, concentrationVolumeText = "",
+        )
+        assertEquals(DoseResult.Invalid(InvalidReason.EMPTY_OR_NON_NUMERIC), r)
+    }
+
     // --- Parsing des chaînes (variante UI) ---
 
     @Test
